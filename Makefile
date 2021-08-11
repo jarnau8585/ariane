@@ -236,7 +236,7 @@ $(dpi-library)/%.o: tb/dpi/%.cc $(dpi_hdr)
 $(dpi-library)/ariane_dpi.so: $(dpi)
 	mkdir -p $(dpi-library)
 	# Compile C-code and generate .so file
-	$(CXX) -shared -m64 -o $(dpi-library)/ariane_dpi.so $? -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr
+	$(CXX) -shared -m64 -o $(dpi-library)/ariane_dpi.so $? -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread
 
 # single test runs on Questa can be started by calling make <testname>, e.g. make towers.riscv
 # the test names are defined in ci/riscv-asm-tests.list, and in ci/riscv-benchmarks.list
@@ -312,7 +312,7 @@ verilate_command := $(verilator)                                                
                     -Wno-style                                                             \
                     -Wno-lint                                                              \
                     $(if $(DEBUG),--trace-structs --trace,)                                \
-                    -LDFLAGS "-L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr"              \
+                    -LDFLAGS "-L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -lfesvr -lpthread"    \
                     -CFLAGS "$(CFLAGS)" -Wall --cc  --vpi                                  \
                     $(list_incdir) --top-module ariane_testharness                         \
                     --Mdir $(ver-library) -O3                                              \
